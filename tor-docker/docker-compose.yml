@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  tor:
+    container_name: tor
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:9053:9053/udp"
+      - "127.0.0.1:9050:9050/tcp"
+    volumes:
+      #  - ./tor:/var/lib/tor/ 
+      - ./torrc:/etc/tor/torrc
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:172.25.0.1"
+    networks:
+      - network1
+
+
+networks:
+  network1:
+    name: docker-compose-network
+    external: true
+
